@@ -35,8 +35,8 @@
 
     h1 {
       text-align: center;
-      font-size: 1.8rem;
-      margin-bottom: 16px;
+      font-size: 2.2rem;
+      margin-bottom: 20px;
     }
 
     .card {
@@ -48,14 +48,14 @@
     }
 
     .card h2 {
-      font-size: 1.1rem;
-      margin-bottom: 8px;
-      opacity: 0.9;
+      font-size: 1.35rem;
+      margin-bottom: 10px;
+      opacity: 0.95;
     }
 
     .big {
-      font-size: 1.4rem;
-      font-weight: 600;
+      font-size: 2rem;
+      font-weight: 700;
     }
 
     .grid {
@@ -87,7 +87,7 @@
     <h1>💜 Nosso Tempo Juntos 💜</h1>
 
     <div class="card">
-      <h2>Estamos juntos há</h2>
+      <h2>💜 Estamos juntos há:</h2>
       <div class="big" id="anos"></div>
       <div id="detalhes"></div>
     </div>
@@ -95,7 +95,10 @@
     <div class="card">
       <h2>Aniversários juntos 🎂</h2>
       <div class="grid">
-        <div class="highlight">👦 <span id="aniversariosEle"></span></div>
+        <div class="highlight">👦 Gabz: <span id="aniversariosEle"></span></div>
+        <div class="highlight">👧 Giih: <span id="aniversariosEla"></span></div>
+        <div class="highlight">🐱 Athena: <span id="aniversariosGata"></span></div>
+      </div>
         <div class="highlight">👧 <span id="aniversariosEla"></span></div>
       </div>
     </div>
@@ -122,10 +125,10 @@
 
       document.getElementById('anos').innerText = `${anos} anos e ${meses % 12} meses`;
       document.getElementById('detalhes').innerHTML = `
-        ${segundos.toLocaleString()} segundos<br>
-        ${minutos.toLocaleString()} minutos<br>
+        ${dias.toLocaleString()} dias<br>
         ${horas.toLocaleString()} horas<br>
-        ${dias.toLocaleString()} dias
+        ${minutos.toLocaleString()} minutos<br>
+        ${segundos.toLocaleString()} segundos
       `;
 
       // Aniversários
@@ -140,6 +143,7 @@
 
       document.getElementById('aniversariosEle').innerText = contarDatas(23, 7);
       document.getElementById('aniversariosEla').innerText = contarDatas(23, 5);
+      document.getElementById('aniversariosGata').innerText = contarDatas(23, 6);
 
       // Natais
       let natais = 0;
@@ -154,6 +158,6 @@
     atualizar();
     setInterval(atualizar, 1000);
   </script>
-    
+
 </body>
 </html>

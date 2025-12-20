@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nosso Tempo Juntos 💜</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #5f2c82, #7f53ac, #a855f7);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(10px);
+      border-radius: 24px;
+      padding: 24px 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      animation: fadeIn 1.2s ease;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 1.8rem;
+      margin-bottom: 16px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 18px;
+      padding: 16px;
+      margin-bottom: 14px;
+      animation: slideUp 0.8s ease;
+    }
+
+    .card h2 {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+      opacity: 0.9;
+    }
+
+    .big {
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .highlight {
+      font-size: 1.6rem;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>💜 Nosso Tempo Juntos 💜</h1>
+
+    <div class="card">
+      <h2>Estamos juntos há</h2>
+      <div class="big" id="anos"></div>
+      <div id="detalhes"></div>
+    </div>
+
+    <div class="card">
+      <h2>Aniversários juntos 🎂</h2>
+      <div class="grid">
+        <div class="highlight">👦 <span id="aniversariosEle"></span></div>
+        <div class="highlight">👧 <span id="aniversariosEla"></span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Natais juntos 🎄</h2>
+      <div class="highlight" id="natais"></div>
+    </div>
+  </div>
+
+  <script>
+    const inicio = new Date(2025, 5, 12, 20, 0, 0); // 12/06/2025 20:00
+
+    function atualizar() {
+      const agora = new Date();
+      const diffMs = agora - inicio;
+
+      const segundos = Math.floor(diffMs / 1000);
+      const minutos = Math.floor(segundos / 60);
+      const horas = Math.floor(minutos / 60);
+      const dias = Math.floor(horas / 24);
+      const meses = Math.floor(dias / 30.4375);
+      const anos = Math.floor(meses / 12);
+
+      document.getElementById('anos').innerText = `${anos} anos e ${meses % 12} meses`;
+      document.getElementById('detalhes').innerHTML = `
+        ${segundos.toLocaleString()} segundos<br>
+        ${minutos.toLocaleString()} minutos<br>
+        ${horas.toLocaleString()} horas<br>
+        ${dias.toLocaleString()} dias
+      `;
+
+      // Aniversários
+      const contarDatas = (dia, mes) => {
+        let count = 0;
+        for (let y = inicio.getFullYear(); y <= agora.getFullYear(); y++) {
+          const data = new Date(y, mes, dia);
+          if (data > inicio && data <= agora) count++;
+        }
+        return count;
+      };
+
+      document.getElementById('aniversariosEle').innerText = contarDatas(23, 7);
+      document.getElementById('aniversariosEla').innerText = contarDatas(23, 5);
+
+      // Natais
+      let natais = 0;
+      for (let y = inicio.getFullYear(); y <= agora.getFullYear(); y++) {
+        const natal = new Date(y, 11, 25);
+        if (natal > inicio && natal <= agora) natais++;
+      }
+
+      document.getElementById('natais').innerText = natais;
+    }
+
+    atualizar();
+    setInterval(atualizar, 1000);
+  </script>
+    
+</body>
+</html>

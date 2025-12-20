@@ -51,23 +51,32 @@
       font-size: 1.35rem;
       margin-bottom: 10px;
       opacity: 0.95;
+      text-align: center;
     }
 
     .big {
       font-size: 2rem;
       font-weight: 700;
+      text-align: center;
     }
 
     .grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
+      margin-top: 8px;
     }
 
     .highlight {
-      font-size: 1.6rem;
+      font-size: 1.4rem;
       font-weight: bold;
       text-align: center;
+    }
+
+    .details {
+      margin-top: 10px;
+      text-align: center;
+      line-height: 1.4;
     }
 
     @keyframes fadeIn {
@@ -88,24 +97,24 @@
 
     <div class="card">
       <h2>💜 Estamos juntos há:</h2>
-      <div class="big" id="anos"></div>
-      <div id="detalhes"></div>
+      <div class="big" id="anosMeses"></div>
+      <div class="details" id="detalhesTempo"></div>
     </div>
 
     <div class="card">
       <h2>Aniversários juntos 🎂</h2>
       <div class="grid">
-        <div class="highlight">👦 Gabz: <span id="aniversariosEle"></span></div>
-        <div class="highlight">👧 Giih: <span id="aniversariosEla"></span></div>
-        <div class="highlight">🐱 Athena: <span id="aniversariosGata"></span></div>
+        <div class="highlight">👦 Gabz: <span id="aniversariosGabz"></span></div>
+        <div class="highlight">👧 Giih: <span id="aniversariosGiih"></span></div>
       </div>
-        <div class="highlight">👧 <span id="aniversariosEla"></span></div>
-      </div>
+      <div class="highlight" style="margin-top:12px;">🐱 Athena: <span id="aniversariosAthena"></span></div>
     </div>
 
     <div class="card">
-      <h2>Natais juntos 🎄</h2>
+      <h2>🎄 Natais juntos</h2>
       <div class="highlight" id="natais"></div>
+      <div class="details" id="proximoNatal"></div>
+    </div>
     </div>
   </div>
 
@@ -123,15 +132,14 @@
       const meses = Math.floor(dias / 30.4375);
       const anos = Math.floor(meses / 12);
 
-      document.getElementById('anos').innerText = `${anos} anos e ${meses % 12} meses`;
-      document.getElementById('detalhes').innerHTML = `
+      document.getElementById('anosMeses').innerText = `${anos} anos e ${meses % 12} meses`;
+      document.getElementById('detalhesTempo').innerHTML = `
         ${dias.toLocaleString()} dias<br>
         ${horas.toLocaleString()} horas<br>
         ${minutos.toLocaleString()} minutos<br>
         ${segundos.toLocaleString()} segundos
       `;
 
-      // Aniversários
       const contarDatas = (dia, mes) => {
         let count = 0;
         for (let y = inicio.getFullYear(); y <= agora.getFullYear(); y++) {
@@ -141,18 +149,28 @@
         return count;
       };
 
-      document.getElementById('aniversariosEle').innerText = contarDatas(23, 7);
-      document.getElementById('aniversariosEla').innerText = contarDatas(23, 5);
-      document.getElementById('aniversariosGata').innerText = contarDatas(23, 6);
+      document.getElementById('aniversariosGabz').innerText = contarDatas(23, 7);
+      document.getElementById('aniversariosGiih').innerText = contarDatas(23, 5);
+      document.getElementById('aniversariosAthena').innerText = contarDatas(23, 6);
 
-      // Natais
       let natais = 0;
       for (let y = inicio.getFullYear(); y <= agora.getFullYear(); y++) {
         const natal = new Date(y, 11, 25);
         if (natal > inicio && natal <= agora) natais++;
       }
-
       document.getElementById('natais').innerText = natais;
+
+      let proximoNatal = new Date(agora.getFullYear(), 11, 25);
+      if (proximoNatal <= agora) {
+        proximoNatal = new Date(agora.getFullYear() + 1, 11, 25);
+      }
+
+      const diffNatalMs = proximoNatal - agora;
+      const diasNatal = Math.floor(diffNatalMs / (1000 * 60 * 60 * 24));
+      const mesesNatal = Math.floor(diasNatal / 30);
+      const diasRestantesNatal = diasNatal % 30;
+
+      document.getElementById('proximoNatal').innerText = `⏳ Próximo Natal em ${mesesNatal} meses e ${diasRestantesNatal} dias`;
     }
 
     atualizar();

@@ -1,0 +1,12 @@
+{
+  "filmes": [
+    { "nome": "Padre Pio", "data": "10/04/2026" },
+    { "nome": "Alice no Pais das Maravilhas 2", "data": "00/00/0000" }
+  ],
+  "jogos": [
+    { "nome": "Dusk Wood", "data": "20/11/2025" }
+  ],
+  "series": [
+    { "nome": "a bloody lucky day", "data": "00/00/0000" }
+  ]
+}

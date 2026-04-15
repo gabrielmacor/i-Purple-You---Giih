@@ -7,9 +7,10 @@ body {
   background-color: #130720; 
   color: #fff; 
   display: flex; 
-  justify-content: center; 
-  align-items: center; 
-  padding: 16px; 
+  flex-direction: column; /* Empilha de cima para baixo */
+  justify-content: flex-start; /* Força o conteúdo a começar do topo, e não do meio */
+  align-items: center; /* Centraliza horizontalmente */
+  padding: 40px 16px; /* Dá um respiro no topo e nas laterais */
   overflow-x: hidden; 
   position: relative; 
   z-index: 1; 

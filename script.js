@@ -2,11 +2,24 @@ AOS.init({ duration: 800, once: true });
 
 const inicio = new Date(2025, 5, 12, 20, 0, 0); // 12/06/2025
 
-// Botão Pulsante e Música
+// --- Lógica de Login na Tela Inicial ---
 document.getElementById('btn-iniciar').addEventListener('click', () => {
-  document.getElementById('start-screen').style.display = 'none';
-  document.getElementById('main-content').style.display = 'block';
-  document.getElementById('bg-music').play();
+  const senha = document.getElementById('senha-entrada').value;
+  
+  if (senha === "IPY2323") {
+    document.getElementById('start-screen').style.display = 'none';
+    document.getElementById('main-content').style.display = 'block';
+    document.getElementById('bg-music').play().catch(e => console.log("O autoplay da música pode estar bloqueado pelo navegador."));
+  } else {
+    document.getElementById('erro-entrada').style.display = 'block';
+  }
+});
+
+// Permite logar apertando "Enter"
+document.getElementById('senha-entrada').addEventListener('keypress', function (e) {
+  if (e.key === 'Enter') {
+    document.getElementById('btn-iniciar').click();
+  }
 });
 
 function atualizar() {
@@ -28,7 +41,6 @@ function atualizar() {
     ${segundos.toLocaleString('pt-BR')} segundos
   `;
 
-  // --- Próximo Versário ---
   let proximoVersario = new Date(agora.getFullYear(), agora.getMonth(), 12);
   if (agora.getDate() >= 12 && agora.getMonth() === proximoVersario.getMonth()) {
     proximoVersario.setMonth(proximoVersario.getMonth() + 1);
@@ -36,31 +48,24 @@ function atualizar() {
   
   const diffVersarioMs = proximoVersario - agora;
   const diasParaVersario = Math.ceil(diffVersarioMs / (1000 * 60 * 60 * 24));
-  
-  // Total de meses cravados que farão no próximo dia 12
   let totalMesesFuturo = (proximoVersario.getFullYear() - inicio.getFullYear()) * 12 + (proximoVersario.getMonth() - inicio.getMonth());
 
   document.getElementById('proximoVersarioData').innerText = `Em ${diasParaVersario} dia${diasParaVersario !== 1 ? 's' : ''}!`;
-  // Nova frase solicitada:
   document.getElementById('proximoVersarioTempo').innerText = `Iremos completar ${totalMesesFuturo} meses que você me atura! 😅`;
 
-  // --- Aniversários (Corrigido as datas) ---
   const contarDatas = (dia, mes) => {
     let count = 0;
     for (let y = inicio.getFullYear(); y <= agora.getFullYear(); y++) {
       const data = new Date(y, mes, dia);
-      // Se a data do aniversário daquele ano for maior ou igual ao dia que começaram a namorar
       if (data >= inicio && data <= agora) count++;
     }
     return count;
   };
 
-  // Lembrete: em Javascript os meses vão de 0 (Jan) a 11 (Dez)
-  document.getElementById('aniversariosGabz').innerText = contarDatas(23, 7); // 23/08 (Agosto é 7)
-  document.getElementById('aniversariosGiih').innerText = contarDatas(23, 5); // 23/06 (Junho é 5)
-  document.getElementById('aniversariosAthena').innerText = contarDatas(23, 5); // Athena tbm 23/06
+  document.getElementById('aniversariosGabz').innerText = contarDatas(23, 7); 
+  document.getElementById('aniversariosGiih').innerText = contarDatas(23, 5); 
+  document.getElementById('aniversariosAthena').innerText = contarDatas(23, 5); 
 
-  // --- Natais ---
   let natais = 0;
   for (let y = inicio.getFullYear(); y <= agora.getFullYear(); y++) {
     const natal = new Date(y, 11, 25);
@@ -80,44 +85,73 @@ function atualizar() {
 atualizar();
 setInterval(atualizar, 1000);
 
-// --- Botão Secreto ---
-const modal = document.getElementById("modal-senha");
+// --- Lógica de Listas (Filmes, Jogos, Séries) usando LocalStorage ---
+function configurarLista(storageKey, inputId, btnId, listId) {
+  const input = document.getElementById(inputId);
+  const btn = document.getElementById(btnId);
+  const lista = document.getElementById(listId);
+
+  // Carrega os dados salvos
+  function renderizar() {
+    lista.innerHTML = '';
+    const dados = JSON.parse(localStorage.getItem(storageKey)) || [];
+    dados.forEach(item => {
+      const li = document.createElement('li');
+      li.innerHTML = `<span>${item.nome}</span> <span class="data-item">${item.data}</span>`;
+      lista.appendChild(li);
+    });
+  }
+
+  // Adiciona novo item
+  btn.addEventListener('click', () => {
+    if (input.value.trim() !== "") {
+      const dados = JSON.parse(localStorage.getItem(storageKey)) || [];
+      const hoje = new Date();
+      const dataFormatada = `${hoje.getDate().toString().padStart(2, '0')}/${(hoje.getMonth()+1).toString().padStart(2, '0')}/${hoje.getFullYear()}`;
+      
+      // Insere no começo da lista
+      dados.unshift({ nome: input.value.trim(), data: dataFormatada });
+      localStorage.setItem(storageKey, JSON.stringify(dados));
+      
+      input.value = "";
+      renderizar();
+    }
+  });
+
+  // Permite adicionar com "Enter"
+  input.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') btn.click();
+  });
+
+  renderizar();
+}
+
+configurarLista('filmes_juntos', 'filme-input', 'btn-add-filme', 'lista-filmes');
+configurarLista('jogos_juntos', 'jogo-input', 'btn-add-jogo', 'lista-jogos');
+configurarLista('series_juntas', 'serie-input', 'btn-add-serie', 'lista-series');
+
+// --- Botão Secreto (Sem Senha) ---
+const modal = document.getElementById("modal-secreto");
 const btnAbrir = document.getElementById("btn-anime-dia");
 const spanFechar = document.getElementById("fechar-modal");
-const btnVerificar = document.getElementById("btn-verificar");
-const inputSenha = document.getElementById("senha-input");
 
-btnAbrir.onclick = () => {
-  modal.style.display = "flex";
-  document.getElementById('modal-body').style.display = "block";
-  document.getElementById('resultado-secreto').style.display = "none";
-  inputSenha.value = "";
-  document.getElementById('erro-senha').style.display = "none";
+btnAbrir.onclick = async () => {
+  try {
+    const response = await fetch('frases.json');
+    const dados = await response.json();
+    
+    const fraseAleatoria = dados.frases[Math.floor(Math.random() * dados.frases.length)];
+    const elogioAleatorio = dados.elogios[Math.floor(Math.random() * dados.elogios.length)];
+    
+    document.getElementById('frase-dia').innerText = `"${fraseAleatoria}"`;
+    document.getElementById('elogio-dia').innerText = elogioAleatorio;
+    
+    modal.style.display = "flex";
+  } catch (error) {
+    console.error("Erro:", error);
+    alert("Oops! O arquivo frases.json não foi encontrado.");
+  }
 }
 
 spanFechar.onclick = () => modal.style.display = "none";
 window.onclick = (event) => { if (event.target === modal) modal.style.display = "none"; }
-
-btnVerificar.onclick = async () => {
-  if (inputSenha.value === "2323") {
-    try {
-      const response = await fetch('frases.json');
-      const dados = await response.json();
-      
-      const fraseAleatoria = dados.frases[Math.floor(Math.random() * dados.frases.length)];
-      const elogioAleatorio = dados.elogios[Math.floor(Math.random() * dados.elogios.length)];
-      
-      document.getElementById('frase-dia').innerText = `"${fraseAleatoria}"`;
-      document.getElementById('elogio-dia').innerText = elogioAleatorio;
-      
-      document.getElementById('modal-body').style.display = "none";
-      document.getElementById('resultado-secreto').style.display = "block";
-      document.getElementById('modal-titulo').innerText = "Pra você 💜";
-    } catch (error) {
-      console.error("Erro:", error);
-      alert("Oops! O arquivo frases.json não foi encontrado.");
-    }
-  } else {
-    document.getElementById('erro-senha').style.display = "block";
-  }
-}

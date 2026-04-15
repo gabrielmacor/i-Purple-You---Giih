@@ -1,9 +1,8 @@
-// Inicializa a biblioteca de animações
 AOS.init({ duration: 800, once: true });
 
-const inicio = new Date(2025, 5, 12, 20, 0, 0); // 12/06/2025 20:00
+const inicio = new Date(2025, 5, 12, 20, 0, 0); // 12/06/2025
 
-// Libera a tela inicial e toca a música
+// Botão Pulsante e Música
 document.getElementById('btn-iniciar').addEventListener('click', () => {
   document.getElementById('start-screen').style.display = 'none';
   document.getElementById('main-content').style.display = 'block';
@@ -14,7 +13,6 @@ function atualizar() {
   const agora = new Date();
   const diffMs = agora - inicio;
 
-  // Calculo de Tempo Juntos
   const segundos = Math.floor(diffMs / 1000);
   const minutos = Math.floor(segundos / 60);
   const horas = Math.floor(minutos / 60);
@@ -30,7 +28,7 @@ function atualizar() {
     ${segundos.toLocaleString('pt-BR')} segundos
   `;
 
-  // Calculo Próximo Versário (dia 12)
+  // --- Próximo Versário ---
   let proximoVersario = new Date(agora.getFullYear(), agora.getMonth(), 12);
   if (agora.getDate() >= 12 && agora.getMonth() === proximoVersario.getMonth()) {
     proximoVersario.setMonth(proximoVersario.getMonth() + 1);
@@ -39,34 +37,30 @@ function atualizar() {
   const diffVersarioMs = proximoVersario - agora;
   const diasParaVersario = Math.ceil(diffVersarioMs / (1000 * 60 * 60 * 24));
   
-  // Calcula quanto tempo vão completar nesse próximo versário
+  // Total de meses cravados que farão no próximo dia 12
   let totalMesesFuturo = (proximoVersario.getFullYear() - inicio.getFullYear()) * 12 + (proximoVersario.getMonth() - inicio.getMonth());
-  let anosFuturo = Math.floor(totalMesesFuturo / 12);
-  let mesesFuturo = totalMesesFuturo % 12;
-  
-  let textoCompletara = "";
-  if (anosFuturo > 0) textoCompletara += `${anosFuturo} ano${anosFuturo > 1 ? 's' : ''}`;
-  if (anosFuturo > 0 && mesesFuturo > 0) textoCompletara += " e ";
-  if (mesesFuturo > 0 || totalMesesFuturo === 0) textoCompletara += `${mesesFuturo} mês${mesesFuturo > 1 ? 'es' : ''}`;
 
   document.getElementById('proximoVersarioData').innerText = `Em ${diasParaVersario} dia${diasParaVersario !== 1 ? 's' : ''}!`;
-  document.getElementById('proximoVersarioTempo').innerText = `Iremos completar ${textoCompletara} juntinhos 🥰`;
+  // Nova frase solicitada:
+  document.getElementById('proximoVersarioTempo').innerText = `Iremos completar ${totalMesesFuturo} meses que você me atura! 😅`;
 
-  // Aniversários
+  // --- Aniversários (Corrigido as datas) ---
   const contarDatas = (dia, mes) => {
     let count = 0;
     for (let y = inicio.getFullYear(); y <= agora.getFullYear(); y++) {
       const data = new Date(y, mes, dia);
+      // Se a data do aniversário daquele ano for maior ou igual ao dia que começaram a namorar
       if (data >= inicio && data <= agora) count++;
     }
     return count;
   };
 
-  document.getElementById('aniversariosGabz').innerText = contarDatas(23, 6); // Julho é mês 6 (0-index)
-  document.getElementById('aniversariosGiih').innerText = contarDatas(23, 4); // Maio é mês 4
-  document.getElementById('aniversariosAthena').innerText = contarDatas(23, 5); // Junho é mês 5
+  // Lembrete: em Javascript os meses vão de 0 (Jan) a 11 (Dez)
+  document.getElementById('aniversariosGabz').innerText = contarDatas(23, 7); // 23/08 (Agosto é 7)
+  document.getElementById('aniversariosGiih').innerText = contarDatas(23, 5); // 23/06 (Junho é 5)
+  document.getElementById('aniversariosAthena').innerText = contarDatas(23, 5); // Athena tbm 23/06
 
-  // Natais
+  // --- Natais ---
   let natais = 0;
   for (let y = inicio.getFullYear(); y <= agora.getFullYear(); y++) {
     const natal = new Date(y, 11, 25);
@@ -86,7 +80,7 @@ function atualizar() {
 atualizar();
 setInterval(atualizar, 1000);
 
-// --- Lógica do Botão Secreto ---
+// --- Botão Secreto ---
 const modal = document.getElementById("modal-senha");
 const btnAbrir = document.getElementById("btn-anime-dia");
 const spanFechar = document.getElementById("fechar-modal");
@@ -107,11 +101,9 @@ window.onclick = (event) => { if (event.target === modal) modal.style.display = 
 btnVerificar.onclick = async () => {
   if (inputSenha.value === "2323") {
     try {
-      // Busca o arquivo JSON com as frases
       const response = await fetch('frases.json');
       const dados = await response.json();
       
-      // Escolhe uma frase e um elogio aleatórios
       const fraseAleatoria = dados.frases[Math.floor(Math.random() * dados.frases.length)];
       const elogioAleatorio = dados.elogios[Math.floor(Math.random() * dados.elogios.length)];
       
@@ -122,8 +114,8 @@ btnVerificar.onclick = async () => {
       document.getElementById('resultado-secreto').style.display = "block";
       document.getElementById('modal-titulo').innerText = "Pra você 💜";
     } catch (error) {
-      console.error("Erro ao carregar as frases:", error);
-      alert("Oops! Não consegui carregar as frases. Verifique se o arquivo frases.json está na mesma pasta!");
+      console.error("Erro:", error);
+      alert("Oops! O arquivo frases.json não foi encontrado.");
     }
   } else {
     document.getElementById('erro-senha').style.display = "block";

@@ -12,12 +12,11 @@
 <body>
 
   <div id="start-screen">
-    <h1>Oii Gatinhaa ❤️</h1>
-    
-    <div class="login-box">
-      <input type="password" id="senha-entrada" placeholder="Senha secreta..." />
+    <div class="login-container">
+      <h1>Oii Gatinhaa ❤️</h1>
+      <input type="password" id="senha-entrada" placeholder="Digite nossa senha..." />
       <button id="btn-iniciar" class="pulse-btn">Entrar no coração do Gabz</button>
-      <p id="erro-entrada" style="color: #ffb3b3; display: none; margin-top: 10px; text-align: center;">Senha incorreta, tente de novo! 🥺</p>
+      <p id="erro-entrada" style="display: none;">Senha incorreta, tente de novo! 🥺</p>
     </div>
     
     <div class="easter-egg">
@@ -25,10 +24,14 @@
     </div>
   </div>
 
-  <audio id="bg-music" src="nossa_musica.mp3" loop></audio>
-
   <div class="container" id="main-content" style="display: none;">
     <h1 data-aos="fade-down">💜 Nosso Tempo Juntos 💜</h1>
+
+    <div class="card" data-aos="fade-up">
+      <h2>🎵 Nossa Música</h2>
+      <div id="player-musica" style="border-radius: 12px; overflow: hidden; margin-top: 10px;">
+        </div>
+    </div>
 
     <div class="card" data-aos="fade-up">
       <h2>💜 Estamos juntos há:</h2>
@@ -60,28 +63,16 @@
 
     <div class="card" data-aos="fade-up">
       <h2>🍿 Filmes Assistidos</h2>
-      <div class="input-group">
-        <input type="text" id="filme-input" placeholder="Nome do filme...">
-        <button id="btn-add-filme" class="btn-add">+</button>
-      </div>
       <ul id="lista-filmes" class="memory-list"></ul>
     </div>
 
     <div class="card" data-aos="fade-up">
       <h2>🎮 Jogos Finalizados</h2>
-      <div class="input-group">
-        <input type="text" id="jogo-input" placeholder="Nome do jogo...">
-        <button id="btn-add-jogo" class="btn-add">+</button>
-      </div>
       <ul id="lista-jogos" class="memory-list"></ul>
     </div>
 
     <div class="card" data-aos="fade-up">
       <h2>📺 Séries/Doramas</h2>
-      <div class="input-group">
-        <input type="text" id="serie-input" placeholder="Nome da série/dorama...">
-        <button id="btn-add-serie" class="btn-add">+</button>
-      </div>
       <ul id="lista-series" class="memory-list"></ul>
     </div>
 

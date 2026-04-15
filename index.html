@@ -13,10 +13,15 @@
 
   <div id="start-screen">
     <h1>Oii Gatinhaa ❤️</h1>
-    <button id="btn-iniciar" class="pulse-btn">Coração do Gabz</button>
+    
+    <div class="login-box">
+      <input type="password" id="senha-entrada" placeholder="Senha secreta..." />
+      <button id="btn-iniciar" class="pulse-btn">Entrar no coração do Gabz</button>
+      <p id="erro-entrada" style="color: #ffb3b3; display: none; margin-top: 10px; text-align: center;">Senha incorreta, tente de novo! 🥺</p>
+    </div>
     
     <div class="easter-egg">
-      🗑️ <i>*saco de lixo* -> Athena</i>
+      🗑️ -> Athena
     </div>
   </div>
 
@@ -53,6 +58,33 @@
       <div class="details" id="proximoNatal"></div>
     </div>
 
+    <div class="card" data-aos="fade-up">
+      <h2>🍿 Filmes Assistidos</h2>
+      <div class="input-group">
+        <input type="text" id="filme-input" placeholder="Nome do filme...">
+        <button id="btn-add-filme" class="btn-add">+</button>
+      </div>
+      <ul id="lista-filmes" class="memory-list"></ul>
+    </div>
+
+    <div class="card" data-aos="fade-up">
+      <h2>🎮 Jogos Finalizados</h2>
+      <div class="input-group">
+        <input type="text" id="jogo-input" placeholder="Nome do jogo...">
+        <button id="btn-add-jogo" class="btn-add">+</button>
+      </div>
+      <ul id="lista-jogos" class="memory-list"></ul>
+    </div>
+
+    <div class="card" data-aos="fade-up">
+      <h2>📺 Séries/Doramas</h2>
+      <div class="input-group">
+        <input type="text" id="serie-input" placeholder="Nome da série/dorama...">
+        <button id="btn-add-serie" class="btn-add">+</button>
+      </div>
+      <ul id="lista-series" class="memory-list"></ul>
+    </div>
+
     <div class="card" data-aos="zoom-in">
       <h2>Nossas Memórias 📸</h2>
       <div class="gallery">
@@ -78,20 +110,14 @@
     </div>
   </div>
 
-  <div id="modal-senha" class="modal">
+  <div id="modal-secreto" class="modal">
     <div class="modal-content">
       <span class="close-btn" id="fechar-modal">&times;</span>
-      <h2 id="modal-titulo">Segredo 🔒</h2>
-      <div id="modal-body">
-        <p>Digite a nossa senha para desbloquear:</p>
-        <input type="password" id="senha-input" placeholder="Senha...">
-        <button id="btn-verificar">Desbloquear</button>
-        <p id="erro-senha" style="color: #ffb3b3; display: none; margin-top: 10px;">Senha incorreta, tente de novo! 🥺</p>
-      </div>
-      <div id="resultado-secreto" style="display: none;">
+      <h2 id="modal-titulo" style="margin-bottom: 20px;">Pra você 💜</h2>
+      <div id="resultado-secreto">
         <h3 style="color: #ffd700;">💡 Frase do Dia</h3>
-        <p id="frase-dia" style="font-style: italic;"></p>
-        <h3 style="color: #ff99cc; margin-top: 15px;">💖 Elogio do Dia</h3>
+        <p id="frase-dia" style="font-style: italic; margin-bottom: 15px;"></p>
+        <h3 style="color: #ff99cc;">💖 Elogio do Dia</h3>
         <p id="elogio-dia" style="font-weight: bold;"></p>
       </div>
     </div>

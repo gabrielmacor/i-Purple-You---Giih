@@ -5,32 +5,102 @@
   padding: 0;
 }
 
+/* Novo Fundo Escuro com Esferas Animadas */
 body {
   min-height: 100vh;
-  background: linear-gradient(135deg, #2b0f4c, #5f2c82, #a855f7);
-  background-size: 400% 400%;
-  animation: gradientBG 15s ease infinite;
+  background-color: #130720; /* Fundo roxo super escuro quase preto */
   color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 16px;
   overflow-x: hidden;
+  position: relative;
+  z-index: 1;
 }
 
-@keyframes gradientBG {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+/* Esferas Flutuantes Roxas */
+body::before, body::after {
+  content: "";
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  z-index: -1;
+  animation: floatOrbs 12s infinite alternate ease-in-out;
 }
 
-/* Tela de Início */
+body::before {
+  width: 400px; height: 400px;
+  background: #a855f7;
+  top: -10%; left: -20%;
+  opacity: 0.6;
+}
+
+body::after {
+  width: 500px; height: 500px;
+  background: #4a00e0;
+  bottom: -10%; right: -20%;
+  animation-delay: -6s;
+  opacity: 0.5;
+}
+
+@keyframes floatOrbs {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(150px, 100px) scale(1.3); }
+}
+
+/* TELA DE INÍCIO VERMELHA */
 #start-screen {
-  text-align: center;
-  z-index: 100;
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: linear-gradient(135deg, #5c0000, #b71c1c, #ff3d00);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
 }
 
-#btn-iniciar, .magic-btn, #btn-verificar {
+#start-screen h1 {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+}
+
+/* Botão de Coração Pulsando */
+.pulse-btn {
+  background: #ff1744;
+  color: white;
+  border: 2px solid #ff5252;
+  padding: 18px 36px;
+  font-size: 1.3rem;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: 700;
+  box-shadow: 0 0 20px rgba(255, 23, 68, 0.6);
+  animation: heartPulse 1s infinite alternate;
+  transition: all 0.3s ease;
+}
+
+.pulse-btn:active {
+  transform: scale(0.9);
+}
+
+@keyframes heartPulse {
+  0% { transform: scale(1); box-shadow: 0 0 15px rgba(255, 23, 68, 0.4); }
+  100% { transform: scale(1.15); box-shadow: 0 0 35px rgba(255, 23, 68, 0.9); }
+}
+
+/* Easter Egg */
+.easter-egg {
+  position: absolute;
+  bottom: 15px;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* Restante dos botões */
+.magic-btn, #btn-verificar {
   background: rgba(255, 255, 255, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.4);
   color: white;
@@ -40,34 +110,31 @@ body {
   cursor: pointer;
   backdrop-filter: blur(5px);
   transition: all 0.3s ease;
-  margin-top: 20px;
+  margin-top: 10px;
   font-weight: 600;
 }
 
-#btn-iniciar:hover, .magic-btn:hover, #btn-verificar:hover {
+.magic-btn:hover, #btn-verificar:hover {
   background: rgba(255, 255, 255, 0.4);
   transform: scale(1.05);
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
 }
 
 .magic-btn { width: 100%; background: linear-gradient(45deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%); color: #5f2c82; }
 
-.container {
-  width: 100%;
-  max-width: 420px;
-}
+/* Cartões Vidro */
+.container { width: 100%; max-width: 420px; }
 
 h1 { text-align: center; font-size: 2rem; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
 
 .card {
   background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 20px;
   padding: 20px;
   margin-bottom: 16px;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
 }
 
 .card h2 { font-size: 1.2rem; margin-bottom: 12px; text-align: center; color: #f0e6ff; }
@@ -76,29 +143,16 @@ h1 { text-align: center; font-size: 2rem; margin-bottom: 20px; text-shadow: 2px 
 .highlight { font-size: 1.2rem; font-weight: bold; text-align: center; }
 .details { margin-top: 8px; text-align: center; line-height: 1.5; font-size: 0.95rem; opacity: 0.9; }
 
-/* Galeria de Fotos */
-.gallery {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.foto {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 12px;
-  border: 2px solid rgba(255,255,255,0.3);
-  transition: transform 0.3s;
-}
-
+/* Galeria */
+.gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.foto { width: 100%; height: 150px; object-fit: cover; border-radius: 12px; border: 2px solid rgba(255,255,255,0.3); transition: transform 0.3s; }
 .foto:active { transform: scale(0.95); }
 
 /* Modal */
 .modal {
   display: none; position: fixed; z-index: 1000; left: 0; top: 0;
   width: 100%; height: 100%; overflow: auto;
-  background-color: rgba(0,0,0,0.6); backdrop-filter: blur(5px);
+  background-color: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
   align-items: center; justify-content: center;
 }
 

@@ -1,27 +1,52 @@
 AOS.init({ duration: 800, once: true });
-
 const inicio = new Date(2025, 5, 12, 20, 0, 0); // 12/06/2025
 
-// --- Lógica de Login na Tela Inicial ---
+// Função para sortear música e dar o play
+async function iniciarMusica() {
+  try {
+    const response = await fetch('musicas.json');
+    const dados = await response.json();
+    const links = dados.links;
+    
+    // Sorteia um link da lista
+    const linkSorteado = links[Math.floor(Math.random() * links.length)];
+    
+    // Extrai o ID do video do link do YouTube (serve para youtu.be e youtube.com)
+    let videoId = "";
+    if (linkSorteado.includes("youtu.be/")) {
+      videoId = linkSorteado.split('youtu.be/')[1].split('?')[0];
+    } else if (linkSorteado.includes("v=")) {
+      videoId = linkSorteado.split('v=')[1].split('&')[0];
+    }
+
+    // Injeta o iframe do YouTube (autoplay ativado)
+    const iframeHtml = `<iframe width="100%" height="200" src="https://www.youtube.com/embed/${videoId}?autoplay=1&loop=1&playlist=${videoId}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+    
+    document.getElementById('player-musica').innerHTML = iframeHtml;
+  } catch (error) {
+    console.error("Erro ao carregar a música:", error);
+    document.getElementById('player-musica').innerHTML = "<p style='text-align:center; opacity:0.7;'>A música não pôde ser carregada. 🥺</p>";
+  }
+}
+
+// Lógica de Login
 document.getElementById('btn-iniciar').addEventListener('click', () => {
   const senha = document.getElementById('senha-entrada').value;
-  
   if (senha === "IPY2323") {
     document.getElementById('start-screen').style.display = 'none';
     document.getElementById('main-content').style.display = 'block';
-    document.getElementById('bg-music').play().catch(e => console.log("O autoplay da música pode estar bloqueado pelo navegador."));
+    iniciarMusica(); // Toca a música e carrega o vídeo
+    carregarMemorias(); // Carrega as listas
   } else {
     document.getElementById('erro-entrada').style.display = 'block';
   }
 });
 
-// Permite logar apertando "Enter"
 document.getElementById('senha-entrada').addEventListener('keypress', function (e) {
-  if (e.key === 'Enter') {
-    document.getElementById('btn-iniciar').click();
-  }
+  if (e.key === 'Enter') document.getElementById('btn-iniciar').click();
 });
 
+// Atualiza Tempos e Datas
 function atualizar() {
   const agora = new Date();
   const diffMs = agora - inicio;
@@ -45,7 +70,6 @@ function atualizar() {
   if (agora.getDate() >= 12 && agora.getMonth() === proximoVersario.getMonth()) {
     proximoVersario.setMonth(proximoVersario.getMonth() + 1);
   }
-  
   const diffVersarioMs = proximoVersario - agora;
   const diasParaVersario = Math.ceil(diffVersarioMs / (1000 * 60 * 60 * 24));
   let totalMesesFuturo = (proximoVersario.getFullYear() - inicio.getFullYear()) * 12 + (proximoVersario.getMonth() - inicio.getMonth());
@@ -81,56 +105,42 @@ function atualizar() {
   const diasNatal = Math.ceil(diffNatalMs / (1000 * 60 * 60 * 24));
   document.getElementById('proximoNatal').innerText = `⏳ Próximo em ${diasNatal} dias`;
 }
-
 atualizar();
 setInterval(atualizar, 1000);
 
-// --- Lógica de Listas (Filmes, Jogos, Séries) usando LocalStorage ---
-function configurarLista(storageKey, inputId, btnId, listId) {
-  const input = document.getElementById(inputId);
-  const btn = document.getElementById(btnId);
-  const lista = document.getElementById(listId);
+// Carrega listas do memorias.json
+async function carregarMemorias() {
+  try {
+    const response = await fetch('memorias.json');
+    const dados = await response.json();
 
-  // Carrega os dados salvos
-  function renderizar() {
-    lista.innerHTML = '';
-    const dados = JSON.parse(localStorage.getItem(storageKey)) || [];
-    dados.forEach(item => {
-      const li = document.createElement('li');
-      li.innerHTML = `<span>${item.nome}</span> <span class="data-item">${item.data}</span>`;
-      lista.appendChild(li);
-    });
-  }
+    function renderizarLista(idLista, itens) {
+      const lista = document.getElementById(idLista);
+      lista.innerHTML = "";
+      itens.forEach(item => {
+        let dataFormatada = item.data;
+        // Tratamento para data 00/00/0000
+        if (item.data === "00/00/0000") {
+          dataFormatada = "Data perdida no espaço-tempo 🛸";
+        } else if (item.data === "") {
+          dataFormatada = "Não lembramos o dia exato 😅";
+        }
 
-  // Adiciona novo item
-  btn.addEventListener('click', () => {
-    if (input.value.trim() !== "") {
-      const dados = JSON.parse(localStorage.getItem(storageKey)) || [];
-      const hoje = new Date();
-      const dataFormatada = `${hoje.getDate().toString().padStart(2, '0')}/${(hoje.getMonth()+1).toString().padStart(2, '0')}/${hoje.getFullYear()}`;
-      
-      // Insere no começo da lista
-      dados.unshift({ nome: input.value.trim(), data: dataFormatada });
-      localStorage.setItem(storageKey, JSON.stringify(dados));
-      
-      input.value = "";
-      renderizar();
+        const li = document.createElement('li');
+        li.innerHTML = `<span class="nome-item">${item.nome}</span> <span class="data-item">${dataFormatada}</span>`;
+        lista.appendChild(li);
+      });
     }
-  });
 
-  // Permite adicionar com "Enter"
-  input.addEventListener('keypress', function (e) {
-    if (e.key === 'Enter') btn.click();
-  });
-
-  renderizar();
+    renderizarLista('lista-filmes', dados.filmes);
+    renderizarLista('lista-jogos', dados.jogos);
+    renderizarLista('lista-series', dados.series);
+  } catch (error) {
+    console.error("Erro ao carregar memórias:", error);
+  }
 }
 
-configurarLista('filmes_juntos', 'filme-input', 'btn-add-filme', 'lista-filmes');
-configurarLista('jogos_juntos', 'jogo-input', 'btn-add-jogo', 'lista-jogos');
-configurarLista('series_juntas', 'serie-input', 'btn-add-serie', 'lista-series');
-
-// --- Botão Secreto (Sem Senha) ---
+// Botão Secreto 
 const modal = document.getElementById("modal-secreto");
 const btnAbrir = document.getElementById("btn-anime-dia");
 const spanFechar = document.getElementById("fechar-modal");

@@ -4,146 +4,38 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nosso Tempo Juntos 💜</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: linear-gradient(135deg, #5f2c82, #7f53ac, #a855f7);
-      color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 16px;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 420px;
-      background: rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(10px);
-      border-radius: 24px;
-      padding: 24px 20px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-      animation: fadeIn 1.2s ease;
-    }
-
-    h1 {
-      text-align: center;
-      font-size: 2.2rem;
-      margin-bottom: 20px;
-    }
-
-    .card {
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 18px;
-      padding: 16px;
-      margin-bottom: 14px;
-      animation: slideUp 0.8s ease;
-    }
-
-    .card h2 {
-      font-size: 1.35rem;
-      margin-bottom: 10px;
-      opacity: 0.95;
-      text-align: center;
-    }
-
-    .big {
-      font-size: 2rem;
-      font-weight: 700;
-      text-align: center;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 8px;
-    }
-
-    .highlight {
-      font-size: 1.4rem;
-      font-weight: bold;
-      text-align: center;
-    }
-
-    .details {
-      margin-top: 10px;
-      text-align: center;
-      line-height: 1.4;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes slideUp {
-      from { transform: translateY(20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-
-    .photo-wrapper {
-      position: relative;
-      width: 100%;
-      border-radius: 16px;
-      overflow: hidden;
-    }
-
-    .foto {
-      width: 100%;
-      border-radius: 16px;
-      object-fit: cover;
-      animation: zoomFoto 12s ease-in-out infinite;
-    }
-
-    .heart {
-      position: absolute;
-      bottom: 12px;
-      right: 12px;
-      font-size: 2rem;
-      animation: pulse 1.8s infinite;
-    }
-
-    .caption {
-      margin-top: 8px;
-      font-size: 1.1rem;
-      opacity: 0.9;
-    }
-
-    @keyframes zoomFoto {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); opacity: 0.8; }
-      50% { transform: scale(1.2); opacity: 1; }
-      100% { transform: scale(1); opacity: 0.8; }
-    }
-      to { transform: translateY(0); opacity: 1; }
-    }
-  </style>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="container">
-    <h1>💜 Nosso Tempo Juntos 💜</h1>
+  <div id="start-screen">
+    <h1>Oi, meu amor 💜</h1>
+    <p>Tenho uma surpresa pra você...</p>
+    <button id="btn-iniciar">Tocar para abrir</button>
+  </div>
 
-    <div class="card">
+  <audio id="bg-music" src="nossa_musica.mp3" loop></audio>
+
+  <div class="container" id="main-content" style="display: none;">
+    <h1 data-aos="fade-down">💜 Nosso Tempo Juntos 💜</h1>
+
+    <div class="card" data-aos="fade-up">
       <h2>💜 Estamos juntos há:</h2>
       <div class="big" id="anosMeses"></div>
       <div class="details" id="detalhesTempo"></div>
     </div>
 
-    <div class="card">
+    <div class="card" data-aos="fade-up">
+      <h2>🎉 Próximo Versário</h2>
+      <div class="highlight" id="proximoVersarioData"></div>
+      <div class="details" id="proximoVersarioTempo"></div>
+    </div>
+
+    <div class="card" data-aos="fade-up">
       <h2>Aniversários juntos 🎂</h2>
       <div class="grid">
         <div class="highlight">👦 Gabz: <span id="aniversariosGabz"></span></div>
@@ -152,78 +44,57 @@
       <div class="highlight" style="margin-top:12px;">🐱 Athena: <span id="aniversariosAthena"></span></div>
     </div>
 
-    <div class="card">
+    <div class="card" data-aos="fade-up">
       <h2>🎄 Natais juntos</h2>
       <div class="highlight" id="natais"></div>
       <div class="details" id="proximoNatal"></div>
     </div>
-            <div class="card" style="padding:12px; text-align:center; overflow:hidden;">
-      <div class="photo-wrapper">
-        <img src="Foto.jpg" alt="Nós dois 💜" class="foto" />
-        <div class="heart">💜</div>
+
+    <div class="card" data-aos="zoom-in">
+      <h2>Nossas Memórias 📸</h2>
+      <div class="gallery">
+        <img src="nossa_foto_1.jpg" class="foto" alt="Nós 1">
+        <img src="nossa_foto_2.jpg" class="foto" alt="Nós 2">
+        <img src="nossa_foto_3.jpg" class="foto" alt="Nós 3">
+        <img src="nossa_foto_4.jpg" class="foto" alt="Nós 4">
       </div>
-      <div class="caption">desde 12/06/2025</div>
+    </div>
+
+    <div class="card" data-aos="zoom-in">
+      <h2>Nossa Menina 🐾</h2>
+      <div class="gallery">
+        <img src="athena_1.jpg" class="foto" alt="Athena 1">
+        <img src="athena_2.jpg" class="foto" alt="Athena 2">
+        <img src="athena_3.jpg" class="foto" alt="Athena 3">
+        <img src="athena_4.jpg" class="foto" alt="Athena 4">
+      </div>
+    </div>
+
+    <div class="card" style="background: transparent; box-shadow: none;" data-aos="fade-up">
+      <button id="btn-anime-dia" class="magic-btn">✨ Anime Meu Dia ✨</button>
     </div>
   </div>
 
-  <script>
-    const inicio = new Date(2025, 5, 12, 20, 0, 0); // 12/06/2025 20:00
+  <div id="modal-senha" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" id="fechar-modal">&times;</span>
+      <h2 id="modal-titulo">Segredo 🔒</h2>
+      <div id="modal-body">
+        <p>Digite a nossa senha para desbloquear:</p>
+        <input type="password" id="senha-input" placeholder="Senha...">
+        <button id="btn-verificar">Desbloquear</button>
+        <p id="erro-senha" style="color: #ffb3b3; display: none; margin-top: 10px;">Senha incorreta, tente de novo! 🥺</p>
+      </div>
+      <div id="resultado-secreto" style="display: none;">
+        <h3 style="color: #ffd700;">💡 Frase do Dia</h3>
+        <p id="frase-dia" style="font-style: italic;"></p>
+        <h3 style="color: #ff99cc; margin-top: 15px;">💖 Elogio do Dia</h3>
+        <p id="elogio-dia" style="font-weight: bold;"></p>
+      </div>
+    </div>
+  </div>
 
-    function atualizar() {
-      const agora = new Date();
-      const diffMs = agora - inicio;
-
-      const segundos = Math.floor(diffMs / 1000);
-      const minutos = Math.floor(segundos / 60);
-      const horas = Math.floor(minutos / 60);
-      const dias = Math.floor(horas / 24);
-      const meses = Math.floor(dias / 30.4375);
-      const anos = Math.floor(meses / 12);
-
-      document.getElementById('anosMeses').innerText = `${anos} anos e ${meses % 12} meses`;
-      document.getElementById('detalhesTempo').innerHTML = `
-        ${dias.toLocaleString()} dias<br>
-        ${horas.toLocaleString()} horas<br>
-        ${minutos.toLocaleString()} minutos<br>
-        ${segundos.toLocaleString()} segundos
-      `;
-
-      const contarDatas = (dia, mes) => {
-        let count = 0;
-        for (let y = inicio.getFullYear(); y <= agora.getFullYear(); y++) {
-          const data = new Date(y, mes, dia);
-          if (data > inicio && data <= agora) count++;
-        }
-        return count;
-      };
-
-      document.getElementById('aniversariosGabz').innerText = contarDatas(23, 7);
-      document.getElementById('aniversariosGiih').innerText = contarDatas(23, 5);
-      document.getElementById('aniversariosAthena').innerText = contarDatas(23, 6);
-
-      let natais = 0;
-      for (let y = inicio.getFullYear(); y <= agora.getFullYear(); y++) {
-        const natal = new Date(y, 11, 25);
-        if (natal > inicio && natal <= agora) natais++;
-      }
-      document.getElementById('natais').innerText = natais;
-
-      let proximoNatal = new Date(agora.getFullYear(), 11, 25);
-      if (proximoNatal <= agora) {
-        proximoNatal = new Date(agora.getFullYear() + 1, 11, 25);
-      }
-
-      const diffNatalMs = proximoNatal - agora;
-      const diasNatal = Math.floor(diffNatalMs / (1000 * 60 * 60 * 24));
-      const mesesNatal = Math.floor(diasNatal / 30);
-      const diasRestantesNatal = diasNatal % 30;
-
-      document.getElementById('proximoNatal').innerText = `⏳ Próximo Natal em ${mesesNatal} meses e ${diasRestantesNatal} dias`;
-    }
-
-    atualizar();
-    setInterval(atualizar, 1000);
-  </script>
-
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

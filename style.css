@@ -1,96 +1,88 @@
-/* Adicione no final do seu CSS atual */
-
-/* Caixa de Login */
-.login-box {
+/* Container de Login Melhorado */
+.login-container {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  align-items: center;
+  gap: 20px;
   width: 90%;
-  max-width: 300px;
+  max-width: 350px;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 40px 30px;
+  border-radius: 25px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+}
+
+.login-container h1 {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+  text-shadow: none;
 }
 
 #senha-entrada {
-  padding: 15px;
+  width: 100%;
+  padding: 18px;
   border-radius: 50px;
-  border: 2px solid rgba(255, 255, 255, 0.4);
-  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.15);
   color: white;
   text-align: center;
-  font-size: 1.1rem;
-  backdrop-filter: blur(5px);
+  font-size: 1.2rem;
+  font-weight: 600;
   outline: none;
+  transition: all 0.3s;
 }
 
-#senha-entrada::placeholder { color: rgba(255, 255, 255, 0.7); }
-#senha-entrada:focus { border-color: white; background: rgba(255, 255, 255, 0.3); }
+#senha-entrada::placeholder { color: rgba(255, 255, 255, 0.8); font-weight: 400; }
+#senha-entrada:focus { background: rgba(255, 255, 255, 0.25); border-color: #fff; box-shadow: 0 0 15px rgba(255,255,255,0.4); }
 
-/* Easter Egg Ajustado */
-.easter-egg {
-  position: absolute;
-  bottom: 2px; /* Colado no limite da tela */
-  font-size: 0.65rem; /* Texto bem pequeno */
-  color: white;
-  opacity: 0.15; /* Quase transparente */
-  letter-spacing: 1px;
-  user-select: none; /* Evita que ela selecione o texto sem querer */
-}
-
-/* Estilos das Novas Listas (Filmes, Jogos, Séries) */
-.input-group {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 15px;
-}
-
-.input-group input {
-  flex: 1;
-  padding: 10px 15px;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-  outline: none;
-}
-
-.input-group input::placeholder { color: rgba(255, 255, 255, 0.5); }
-
-.btn-add {
-  background: #a855f7;
+/* Botão Entrar maior e mais bonito */
+.pulse-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #ff1744, #d50000);
   color: white;
   border: none;
-  width: 40px;
-  border-radius: 10px;
-  font-size: 1.5rem;
+  padding: 18px;
+  font-size: 1.2rem;
+  border-radius: 50px;
   cursor: pointer;
-  transition: 0.3s;
+  font-weight: 700;
+  box-shadow: 0 5px 20px rgba(255, 23, 68, 0.5);
+  animation: heartPulse 1.5s infinite alternate;
+  transition: transform 0.2s;
 }
 
-.btn-add:hover { background: #7f53ac; transform: scale(1.05); }
+#erro-entrada { color: #ff8a80; font-weight: 600; }
 
+/* Easter Egg Invisível colado na base */
+.easter-egg {
+  position: absolute;
+  bottom: 2px;
+  font-size: 0.65rem;
+  color: white;
+  opacity: 0.15;
+  user-select: none;
+}
+
+/* Listas (Sem o input) */
 .memory-list {
   list-style: none;
-  max-height: 150px;
+  max-height: 200px;
   overflow-y: auto;
   padding-right: 5px;
+  margin-top: 10px;
 }
 
 .memory-list li {
   background: rgba(0, 0, 0, 0.2);
-  padding: 10px;
-  border-radius: 8px;
-  margin-bottom: 8px;
+  padding: 12px 15px;
+  border-radius: 12px;
+  margin-bottom: 10px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.9rem;
+  flex-direction: column;
+  border-left: 4px solid #a855f7;
 }
 
-.memory-list .data-item {
-  font-size: 0.75rem;
-  color: #ff99cc;
-  opacity: 0.8;
-}
-
-/* Scrollbar para as listas */
-.memory-list::-webkit-scrollbar { width: 5px; }
-.memory-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 10px; }
+.memory-list .nome-item { font-size: 1rem; font-weight: 600; }
+.memory-list .data-item { font-size: 0.8rem; color: #eebbff; opacity: 0.9; margin-top: 2px; }

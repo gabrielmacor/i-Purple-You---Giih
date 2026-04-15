@@ -7,15 +7,17 @@
   
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <div id="start-screen">
-    <h1>Oi, meu amor 💜</h1>
-    <p>Tenho uma surpresa pra você...</p>
-    <button id="btn-iniciar">Tocar para abrir</button>
+    <h1>Oii Gatinhaa ❤️</h1>
+    <button id="btn-iniciar" class="pulse-btn">Coração do Gabz</button>
+    
+    <div class="easter-egg">
+      🗑️ <i>*saco de lixo* -> Athena</i>
+    </div>
   </div>
 
   <audio id="bg-music" src="nossa_musica.mp3" loop></audio>
@@ -32,7 +34,7 @@
     <div class="card" data-aos="fade-up">
       <h2>🎉 Próximo Versário</h2>
       <div class="highlight" id="proximoVersarioData"></div>
-      <div class="details" id="proximoVersarioTempo"></div>
+      <div class="details" id="proximoVersarioTempo" style="font-weight: 600; color: #eebbff;"></div>
     </div>
 
     <div class="card" data-aos="fade-up">
@@ -42,6 +44,7 @@
         <div class="highlight">👧 Giih: <span id="aniversariosGiih"></span></div>
       </div>
       <div class="highlight" style="margin-top:12px;">🐱 Athena: <span id="aniversariosAthena"></span></div>
+      <div class="highlight" style="margin-top:8px; font-size: 1rem; opacity: 0.7;">🐱 ??? : está por vir</div>
     </div>
 
     <div class="card" data-aos="fade-up">

@@ -1,10 +1,24 @@
 {
   "filmes": [
     { "nome": "Padre Pio", "data": "10/04/2026" },
-    { "nome": "Alice no Pais das Maravilhas 2", "data": "00/00/0000" }
+    { "nome": "Alice no Pais das Maravilhas 2", "data": "00/00/0000" },
+    { "nome": "Paixão de Cristo", "data": "00/00/0000" },
+    { "nome": "História sem Fim", "data": "00/00/0000" },
+    { "nome": "Pets", "data": "00/00/0000" },
+    { "nome": "Frankenweenie", "data": "00/00/0000" },
+    { "nome": "Sweeney Todd", "data": "00/00/0000" }
   ],
   "jogos": [
-    { "nome": "Dusk Wood", "data": "20/11/2025" }
+    { "nome": "Dusk Wood", "data": "20/11/2025" },
+    { "nome": "Yellow Baby", "data": "00/00/0000" },
+    { "nome": "The Alchemist", "data": "00/00/0000" },
+    { "nome": "Forgoten Hill - Desillusions", "data": "00/00/0000" },
+    { "nome": "Forgoten Hill - Puppeteer", "data": "00/00/0000" },
+    { "nome": "Forgoten Hill - Fall", "data": "00/00/0000" },
+    { "nome": "Forgoten Hill - The Wardrobe", "data": "00/00/0000" },
+    { "nome": "Forgoten Hill - Mementoes", "data": "00/00/0000" },
+    { "nome": "Forgoten Hill - Surgery", "data": "00/00/0000" },
+    { "nome": "Forgoten Hill - Tales", "data": "00/00/0000" }
   ],
   "series": [
     { "nome": "a bloody lucky day", "data": "00/00/0000" }
